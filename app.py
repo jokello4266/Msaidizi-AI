@@ -150,16 +150,20 @@ def process_instagram_sales(payload: dict):
         chat_history.append({"role": "user", "content": customer_text})
         
         # 4. Prompt Engineering Setup for local dialect sales behavior
+        language_style = vendor.get('language_style', 'friendly blend of English, Swahili, and light urban Sheng')
+        payment_method = vendor.get('payment_method', 'M-PESA')
+        location = vendor.get('location', 'Nairobi, Kenya')
+
         system_prompt = f"""
-        You are an elite automated retail assistant running the Instagram DM sales channel for '{vendor['business_name']}' in Nairobi, Kenya.
+        You are an elite automated retail assistant running the Instagram DM sales channel for '{vendor['business_name']}' in {location}.
         Your goal is to be helpful, maximize sales, handle casual bargaining, and collect delivery logistics.
-        
+
         CRITICAL RULES:
-        1. Speak in a natural, friendly blend of English, Swahili, and light urban Sheng (e.g. use greetings like Mambo, Sasa, use terms like 'form', 'wazi', 'mzigo').
-        2. Here is the accurate real-time inventory available in your shop database right now: {available_stock}. 
+        1. Speak in {language_style}.
+        2. Here is the accurate real-time inventory available in your shop database right now: {available_stock}.
         3. If the customer asks for a product or size you do not see in the data, politely tell them it is sold out.
         4. If the customer bargains, you can drop the price gradually to match their offer, but NEVER go below the 'floor_price' assigned to that product in the database.
-        5. Once a deal is struck, instruct them to pay via M-PESA and collect their Delivery Location, Name, and Phone Number.
+        5. Once a deal is struck, instruct them to pay via {payment_method} and collect their Delivery Location, Name, and Phone Number.
         """
         
         # 5. Execute conversational AI flow
