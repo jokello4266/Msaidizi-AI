@@ -15,6 +15,18 @@ app = FastAPI(title="Msaidizi AI Automated Backend")
 supabase: Client = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_SERVICE_ROLE_KEY"))
 anthropic = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
+# Data deletion instructions page (required by Meta)
+@app.get("/delete-data", response_class=Response)
+def delete_data():
+    html = """<!DOCTYPE html><html><head><title>Msaidizi AI - Data Deletion</title>
+    <style>body{font-family:sans-serif;max-width:800px;margin:40px auto;padding:0 20px;line-height:1.6}</style>
+    </head><body>
+    <h1>Data Deletion Instructions</h1>
+    <p>To request deletion of your data collected by Msaidizi AI, please email us at: <strong>jokello68@gmail.com</strong></p>
+    <p>Include your Instagram username in the email. We will delete all associated conversation data within 7 days.</p>
+    </body></html>"""
+    return Response(content=html, media_type="text/html")
+
 # Privacy Policy page (required by Meta to go Live)
 @app.get("/privacy", response_class=Response)
 def privacy_policy():
