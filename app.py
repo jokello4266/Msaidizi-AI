@@ -15,6 +15,26 @@ app = FastAPI(title="Msaidizi AI Automated Backend")
 supabase: Client = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_SERVICE_ROLE_KEY"))
 anthropic = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
 
+# Privacy Policy page (required by Meta to go Live)
+@app.get("/privacy", response_class=Response)
+def privacy_policy():
+    html = """<!DOCTYPE html><html><head><title>Msaidizi AI - Privacy Policy</title>
+    <style>body{font-family:sans-serif;max-width:800px;margin:40px auto;padding:0 20px;line-height:1.6}</style>
+    </head><body>
+    <h1>Msaidizi AI Privacy Policy</h1>
+    <p><strong>Last updated: June 2026</strong></p>
+    <p>Msaidizi AI provides automated customer service and sales assistance for small businesses via Instagram and WhatsApp.</p>
+    <h2>Data We Collect</h2>
+    <p>We collect Instagram user IDs and message content solely to provide automated responses on behalf of the business you are contacting. We also store conversation history to maintain context across your chat session.</p>
+    <h2>How We Use Your Data</h2>
+    <p>Your messages are processed by Claude AI (Anthropic) to generate responses. We do not sell or share your data with third parties beyond what is required to operate the service.</p>
+    <h2>Data Retention</h2>
+    <p>Conversation history is retained to improve response quality. You may request deletion of your data by contacting the business directly.</p>
+    <h2>Contact</h2>
+    <p>For privacy concerns, contact us at: jokello68@gmail.com</p>
+    </body></html>"""
+    return Response(content=html, media_type="text/html")
+
 # Webhook Verification for Meta APIs
 @app.get("/webhook/whatsapp")
 @app.get("/webhook/instagram")
