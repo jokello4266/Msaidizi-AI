@@ -1,0 +1,7 @@
+Hi Claude! I have a complete system blueprint for a mobile-first AI Customer Service and Sales Automation business targeting Instagram shops in Kenya. 
+
+I already have the Supabase SQL database schema, an environment configuration template, and a core FastAPI python architecture script (`app.py`). 
+
+Please help me build this out step-by-step from my local Visual Studio Code workstation. 
+
+Let's begin with Phase 1: Guide me on how to open VS Code on my laptop, set up my local virtual environment, install the correct dependencies via pip, and safely wire up my `.env` variables so we can prepare to test the backend endpoints locally.
