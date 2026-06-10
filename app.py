@@ -135,9 +135,12 @@ def process_instagram_sales(payload: dict):
         customer_ig_id = messaging_event['sender']['id']
         customer_text = messaging_event['message']['text']
         page_id = messaging_event['recipient']['id']
-        
+
+        print(f"[DEBUG] DM received — page_id: {page_id}, from: {customer_ig_id}, text: {customer_text}")
+
         # 1. Identify which vendor's IG page this message belongs to
         vendor_data = supabase.table("vendors").select("*").eq("instagram_username", page_id).execute()
+        print(f"[DEBUG] Vendor lookup for {page_id}: found {len(vendor_data.data)} result(s)")
         if not vendor_data.data:
             return
         vendor = vendor_data.data[0]
