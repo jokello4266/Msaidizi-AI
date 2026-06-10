@@ -125,6 +125,13 @@ async def whatsapp_webhook_post(request: Request, background_tasks: BackgroundTa
 def process_instagram_sales(payload: dict):
     try:
         messaging_event = payload['entry'][0]['messaging'][0]
+
+        # Skip read receipts, reactions, and non-text events
+        if 'message' not in messaging_event:
+            return
+        if 'text' not in messaging_event.get('message', {}):
+            return
+
         customer_ig_id = messaging_event['sender']['id']
         customer_text = messaging_event['message']['text']
         page_id = messaging_event['recipient']['id']
