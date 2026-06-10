@@ -193,11 +193,13 @@ def process_instagram_sales(payload: dict):
         else:
             supabase.table("conversations").insert({"customer_ig_id": customer_ig_id, "vendor_id": vendor['id'], "chat_history": chat_history}).execute()
             
-        # Send reply out to Meta Instagram Send API
-        requests.post(
-            f"https://graph.facebook.com/v19.0/me/messages?access_token={os.getenv('META_ACCESS_TOKEN')}",
+        # Send reply out to Meta Instagram Send API using vendor's own access token
+        vendor_token = vendor.get('access_token') or os.getenv('META_ACCESS_TOKEN')
+        send_response = requests.post(
+            f"https://graph.facebook.com/v19.0/me/messages?access_token={vendor_token}",
             json={"recipient": {"id": customer_ig_id}, "message": {"text": reply_text}}
         )
+        print(f"[DEBUG] Reply sent — status: {send_response.status_code}, response: {send_response.text[:200]}")
         
     except Exception as e:
         print(f"Error handling Instagram sales conversion loop: {str(e)}")
