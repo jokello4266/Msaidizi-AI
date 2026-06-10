@@ -93,7 +93,7 @@ def process_whatsapp_upload(payload: dict):
             """
             
             response = anthropic.messages.create(
-                model="claude-3-5-sonnet-20241022",
+                model="claude-sonnet-4-6",
                 max_tokens=500,
                 messages=[{"role": "user", "content": vision_prompt}]
             )
@@ -169,7 +169,7 @@ def process_instagram_sales(payload: dict):
         # 5. Execute conversational AI flow
         messages_payload = [{"role": m["role"], "content": m["content"]} for m in chat_history]
         ai_response = anthropic.messages.create(
-            model="claude-3-5-sonnet-20241022",
+            model="claude-sonnet-4-6",
             system=system_prompt,
             max_tokens=800,
             messages=messages_payload
